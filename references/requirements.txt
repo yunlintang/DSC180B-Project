@@ -1,0 +1,6 @@
+python3
+numpy
+pandas
+curl
+twarc (user needs to configure twarc before running the script)
+tweepy

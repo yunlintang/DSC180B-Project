@@ -1,0 +1,12 @@
+{
+    "start_date": "2020-03-22",
+    "end_date": "2020-08-01",
+    "test_end_date": "2020-04-01",
+    "data_path": "data/raw/",
+    "science_list": ["SocialDistancing","StayAtHome","news"],
+    "misinformation_list": ["FakeNews","TrumpVirus","WuhanVirus"],
+    "default_tpu_cutoff": 200,
+    "save_graph": true,
+    "science_tag": "science",
+    "misinformation_tag": "misinformation"
+}
