@@ -48,3 +48,4 @@ def clean_all_csv(datapath, outpath):
     for fn in os.listdir(datapath):
         if ('2020' in fn) and ('csv' in fn):
             clean_csv(datapath, fn, out_path)
+    return

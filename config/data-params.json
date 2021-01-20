@@ -4,5 +4,7 @@
     "script_path": "src/data/data/collect_data.sh",
     "script_type": "sh",
     "data_path": "data/raw/",
-    "out_path": "data/interim/"
+    "out_path": "data/interim/",
+    "url": "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv",
+    "case_csv": "new_cases.csv"
 }

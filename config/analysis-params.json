@@ -1,6 +1,3 @@
 {
-    "sci_ID": "1251105543248363522",
-    "mis_ID": "1282289719846539266",
-    "sci_name": "sci_his",
-    "mis_name": "mis_his"
+    "data_path": "data/interim"
 }
