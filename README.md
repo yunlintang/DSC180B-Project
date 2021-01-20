@@ -1,4 +1,4 @@
-# DSC180A-Project
+# DSC180B-Project
 
 ## Table of Contents
 
@@ -10,8 +10,7 @@
 - [Build Process](#build-process)
 
 ## Introduction
-The massive diffusion of new content in social media platforms, like Twitter, facilitates the spread of opinions and voices across users, but more unfortunately, it becomes a global risk by easing the process of creating “fake news” and expediting the dissemination of conspiracy theories.
-
+Covid-19 changed everyone, from the way we interact, to how we work, and our methods of communication, especially through social media. Under this pandemic period, social media becomes a huge and important part of people’s daily lives. It provides mobile users a convenient way to connect to each other around the world and acquire the updated and trending information about the topic of covid-19. Beside these, people can also express their thoughts and feelings toward certain topics by posting on social media. Throughout the studying of this quarter, we noticed that there are numbers of posts in our Twitter dataset that are related to the topic of covid-19 having some strong emotions and sentiments. In the meantime, a previous study has shown that more people are experiencing negative emotions such as anxiety and panic under this pandemic period. Therefore, we are interested in analyzing the posts that are related to the topic of covid-19 on social media and investigating the underlying causes of the negative emotions implied in these posts.
 
 
 
@@ -63,5 +62,6 @@ Our test data contains no personal information as all of the details have been r
 ### Responsibilities
 
 * Jiawei Zheng developed
-* Zhichong Chris Lin developed
+* Yunlin Tang developed
+* Zhou Li developed
 ```
