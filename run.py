@@ -2,7 +2,8 @@ import sys
 import os
 import json
 import subprocess
-from Analysis.Analysis_script import *
+
+from analysis.data_analysis import *
 
 sys.path.insert(0, 'src')
 
