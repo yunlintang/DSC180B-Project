@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import json
 import os
+
 def convert_to_json (filepath):
     tweets_json = []
     with open(filepath) as f:
@@ -42,5 +43,3 @@ def convert_all_json(inputpath, outputpath):
             completeName = os.path.join(inputpath, filename)
 
             extract_to_csv(completeName, outputpath, filename)
-
-convert_all_json('/Users/steven/Documents/GitHub/DSC180B_Project/tweet_in', '/Users/steven/Documents/GitHub/DSC180B_Project/tweet_out')

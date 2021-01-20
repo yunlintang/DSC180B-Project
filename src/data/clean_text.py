@@ -42,3 +42,9 @@ def clean_csv(path, filename, topath):
     df = df.dropna(subset=['clean_text'])
     df.to_csv(topath+filename[:10]+'-clean.csv',index=False)
     return
+
+# clean all the csv data
+def clean_all_csv(datapath, outpath):
+    for fn in os.listdir(datapath):
+        if ('2020' in fn) and ('csv' in fn):
+            clean_csv(datapath, fn, out_path)
