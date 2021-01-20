@@ -1,14 +1,10 @@
 import sys
-sys.path.insert(0, 'src')
 import os
 import json
-from EDA.EDA_script import *
 import subprocess
 from Analysis.Analysis_script import *
 
-
-
-
+sys.path.insert(0, 'src')
 
 
 def main(targets):
