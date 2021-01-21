@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 
+import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 nltk.download('vader_lexicon')
 import datetime
@@ -21,6 +22,10 @@ def gen_date_list(start_str, end_str):
     return date_list
 
 def cal_daily_vader_score(file_path,date_list):
+    """Calculate the daily sensiment score in a folder path
+    within selected dates
+    The function always print the current processing date
+    """
     sid = SentimentIntensityAnalyzer()
     pol = sid.polarity_scores
     score_list = []

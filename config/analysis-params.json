@@ -1,3 +1,4 @@
 {
-    "data_path": "data/interim"
+    "data_path": "data/interim",
+    "csv_path": "data/csv_out/"
 }
