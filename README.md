@@ -21,7 +21,7 @@ We use data from [thepanacealab](https://github.com/thepanacealab) which gathers
 ```
 .
 ├──src
-│  ├── data/collection_script                   
+│  ├── data              
 │      ├── bashscript  # changing directory, unzipping file, curl and twarc
 │      ├── get_IDs.py   # table processing function that extracts the tweetID and output txt
 └── ...
