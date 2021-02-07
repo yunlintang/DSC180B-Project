@@ -36,7 +36,9 @@ def clean_text(x):
 
 # combine all in functions
 def clean_csv(path, filename, topath):
-    df = pd.read_csv(path+filename, usecols=range(1,9))
+    df = pd.read_csv(path+filename)
+    if 'test' not in path:
+        df = pd.read_csv(path+filename, usecols=range(1,9))
     df = df[df['language'] == 'en']
     df['clean_text'] = df.apply(clean_text,axis=1)
     df = df.dropna(subset=['clean_text'])

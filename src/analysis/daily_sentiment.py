@@ -8,11 +8,15 @@ import datetime
 
 
 
-def gen_date_list(start_str, end_str):
+def gen_date_list(**kwargs):
     """Generate the date list in string format of 
     2020-01-01
     used to read in all the csv documents
     """
+    if kwargs['test']:
+        start_str, end_str = kwargs['test_sd'], kwargs['test_ed']
+    else:
+        start_str, end_str = kwargs['start_date'], kwargs['end_date']
     start = datetime.datetime.strptime(start_str, "%Y-%m-%d")
     end = datetime.datetime.strptime(end_str, "%Y-%m-%d")
     date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
@@ -21,11 +25,15 @@ def gen_date_list(start_str, end_str):
         date_list.append(date.strftime("%Y-%m-%d"))
     return date_list
 
-def cal_daily_vader_score(file_path,date_list,out_path):
+def cal_daily_vader_score(**kwargs):
     """Calculate the daily sensiment score in a folder path
     within selected dates
     The function always print the current processing date
     """
+    file_path,date_list,out_path = kwargs['data_path'],kwargs['date_list'],kwargs['out_path']
+    if kwargs['test']:
+        file_path = kwargs['test_path']
+
     sid = SentimentIntensityAnalyzer()
     pol = sid.polarity_scores
     score_list = []

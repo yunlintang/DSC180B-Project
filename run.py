@@ -17,11 +17,12 @@ from data.case_download import *
 def main(targets):
 
     env_setup.make_datadir()
-    test_targets = ['test-data', 'analysis']
+    test_targets = ['test-data','analysis']
 
     if 'test' in targets:
         targets = test_targets
     
+
     if 'data' in targets:
         with open('config/data-params.json') as fh:
             data_param = json.load(fh)
@@ -34,18 +35,22 @@ def main(targets):
         total_case(data_param['case_csv'], data_param['out_path'], data_param['start_date'], data_param['end_date'], data_param['url'])
 
 
-    if 'analysis' in targets:
-        with open('config/analysis-params.json') as fh:
-            ana_param = json.load(fh)
-        date_list = gen_date_list(ana_param['start_date'], ana_param['end_date'])
-        cal_daily_vader_score(ana_param['data_path'],date_list, ana_param['out_path'])
-        analyze_data(ana_param['data_path'], ana_param['out_path'], ana_param['freq_names'], ana_param['case_name'], ana_param['words_toplot'])
-
-
     if 'test-data' in targets:
         with open('config/data-params.json') as fh:
             data_cfg = json.load(fh)
-        convert_all_json(data_cfg)
+        clean_all_csv(data_cfg['path_test'], data_cfg['path_test'])
+
+
+    if 'analysis' in targets:
+        with open('config/analysis-params.json') as fh:
+            ana_cfg = json.load(fh)
+        if "test-data" in targets:
+            ana_cfg['test'] = True
+        else:
+            ana_cfg['test'] = False
+        ana_cfg['date_list'] = gen_date_list(**ana_cfg)
+        cal_daily_vader_score(**ana_cfg)
+        analyze_data(**ana_cfg)
 
 
     if 'all' in targets:
