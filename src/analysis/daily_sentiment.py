@@ -7,7 +7,6 @@ nltk.download('vader_lexicon')
 import datetime
 
 
-
 def gen_date_list(start_str, end_str):
     """Generate the date list in string format of 
     2020-01-01
