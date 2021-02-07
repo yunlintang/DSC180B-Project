@@ -6,6 +6,7 @@ import subprocess
 sys.path.insert(0, 'src')
 
 from analysis.data_analysis import *
+from analysis.daily_sentiment import *
 from data.clean_text import *
 from data.extract_to_csv import *
 from data.case_download import *
@@ -29,6 +30,9 @@ def main(targets):
     if 'analysis' in targets:
         with open('config/analysis-params.json') as fh:
             ana_param = json.load(fh)
+        date_list = gen_date_list("2020-03-22", "2020-12-01")
+        print(cal_daily_vader_score(ana_param['csv_path'],date_list))
+
 
     if 'test' in targets:
         with open('config/data-params.json') as fh:
