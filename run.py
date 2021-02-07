@@ -17,6 +17,10 @@ from data.case_download import *
 def main(targets):
 
     env_setup.make_datadir()
+    test_targets = ['test-data', 'analysis']
+
+    if 'test' in targets:
+        targets = test_targets
     
     if 'data' in targets:
         with open('config/data-params.json') as fh:
@@ -38,9 +42,10 @@ def main(targets):
         analyze_data(ana_param['data_path'], ana_param['out_path'], ana_param['freq_names'], ana_param['case_name'], ana_param['words_toplot'])
 
 
-    if 'test' in targets:
+    if 'test-data' in targets:
         with open('config/data-params.json') as fh:
-            data_param = json.load(fh)
+            data_cfg = json.load(fh)
+        convert_all_json(data_cfg)
 
 
     if 'all' in targets:
