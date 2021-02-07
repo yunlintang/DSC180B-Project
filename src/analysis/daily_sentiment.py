@@ -21,7 +21,7 @@ def gen_date_list(start_str, end_str):
         date_list.append(date.strftime("%Y-%m-%d"))
     return date_list
 
-def cal_daily_vader_score(file_path,date_list):
+def cal_daily_vader_score(file_path,date_list,out_path):
     """Calculate the daily sensiment score in a folder path
     within selected dates
     The function always print the current processing date
@@ -31,7 +31,10 @@ def cal_daily_vader_score(file_path,date_list):
     score_list = []
     for i in date_list:
         print(i)
-        test_df = pd.read_csv(file_path + i + '.csv')
-        score = test_df.text.apply(pol).apply(lambda x:x['compound']).mean()
+        test_df = pd.read_csv(file_path + i + '-clean.csv',lineterminator='\n')
+        score = test_df['clean_text'].apply(lambda x: pol(str(x))).apply(lambda x:x['compound']).mean()
         score_list.append(score)
+    df = pd.DataFrame({'date': date_list, 'score':score_list})
+    df.to_csv(out_path+"sentiment_scores.csv", index=False)
+    print("result is saved at:", out_path+"sentiment_scores.csv")
     return score_list

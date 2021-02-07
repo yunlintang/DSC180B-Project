@@ -1,3 +1,4 @@
+import os
 import pandas as pd
 import numpy as np
 import json
@@ -16,23 +17,38 @@ def get_date_list(start_date, end_date_exclusive):
     all_dates = [date_obj.strftime('%Y-%m-%d') for date_obj in date_generated]
     return all_dates
 
+
+
 def draw_wordcloud(freq, topath, tofilename):
+    """
+    function to draw wordcloud according to the given frequency table
+    """
     wc = WordCloud(width=1600, height=800, background_color='white').generate_from_frequencies(freq)
     fig = plt.figure(figsize=(20,10))
     plt.imshow(wc)
     plt.axis('off')
     fig.savefig(topath+tofilename)
+    print('wordcloud is saved at:', tofilename)
     return
 
 def compute_freq(df, vectorizer, topath, tofilename):
+    """
+    function to compute the frequency of documents based on given vectorizer
+    """
     vec = vectorizer.set_params(**{'max_features':100})
     doc_vec = vec.fit_transform(df['text'].values.astype('U'))
     df_dtm = pd.DataFrame(doc_vec.toarray(), columns=vec.get_feature_names())
     df_freq = df_dtm.sum().sort_values(ascending=False)
     df_freq.to_csv(topath+tofilename, header=False)
+    print('frequency table is saved at:', topath+tofilename)
+    draw_wordcloud(df_freq, topath, tofilename[:-4]+'_wordcloud.png')
     return
 
 def plot_freq(df, df_case_cnt, word, topath,tofilename):
+    """
+    function to draw a graph that compares between a selected word and the 
+    number of daily cases
+    """
     # process the counts of word
     df_word = df[df['text'].apply(lambda x: word in x)]
     df_word = df_word.groupby('date').count().reset_index()
@@ -52,7 +68,7 @@ def plot_freq(df, df_case_cnt, word, topath,tofilename):
     return
 
 
-def analyze_data(datapath):
+def analyze_data(datapath, outpath, freqFileName, caseFileName, words):
     # read data
     df = pd.DataFrame({'date':[], 'text':[]})
     for fn in os.listdir(datapath):
@@ -65,3 +81,18 @@ def analyze_data(datapath):
     # drop nan
     df = df.dropna(subset=['text'])
     df = df.reset_index(drop=True)
+
+    # compute the frequency tables
+    compute_freq(df, CountVectorizer(), outpath, freqFileName[0])
+    compute_freq(df, TfidfVectorizer(), outpath, freqFileName[1])
+
+    # normalize the daily case dataset
+    df_case = pd.read_csv(datapath+caseFileName)
+    df_case_cnt = (df_case['new_cases'] - df_case['new_cases'].min()) / (df_case['new_cases'].max() - df_case['new_cases'].min())
+
+    # plot the frequency comparison graphs
+    for i in words:
+        plot_freq(df, df_case_cnt, i, outpath, i+'_plot.png')
+        print('comparison plot is saved at:', outpath+i+'_plot.png')
+
+

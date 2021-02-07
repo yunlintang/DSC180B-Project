@@ -13,7 +13,7 @@ def total_case(tofilename, topath, sdate, edate, url):
     df_case['date'] = pd.to_datetime(df_case['date'], format='%Y-%m-%d')
     
     # filter out dates
-    df_case = df_case[(df_case['date'] >= start_date) & (df_case['date'] <= end_date)]
+    df_case = df_case[(df_case['date'] >= start_date) & (df_case['date'] < end_date)]
     df_case_sum = df_case[['date', 'new_cases']].groupby(by=['date']).sum().reset_index()
     df_case_sum.to_csv(topath+tofilename,index=False)
     

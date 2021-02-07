@@ -5,6 +5,7 @@ import subprocess
 
 sys.path.insert(0, 'src')
 
+import env_setup
 from analysis.data_analysis import *
 from analysis.daily_sentiment import *
 from data.clean_text import *
@@ -15,6 +16,8 @@ from data.case_download import *
 
 def main(targets):
 
+    env_setup.make_datadir()
+    
     if 'data' in targets:
         with open('config/data-params.json') as fh:
             data_param = json.load(fh)
@@ -30,8 +33,9 @@ def main(targets):
     if 'analysis' in targets:
         with open('config/analysis-params.json') as fh:
             ana_param = json.load(fh)
-        date_list = gen_date_list("2020-03-22", "2020-12-01")
-        print(cal_daily_vader_score(ana_param['csv_path'],date_list))
+        date_list = gen_date_list(ana_param['start_date'], ana_param['end_date'])
+        cal_daily_vader_score(ana_param['data_path'],date_list, ana_param['out_path'])
+        analyze_data(ana_param['data_path'], ana_param['out_path'], ana_param['freq_names'], ana_param['case_name'], ana_param['words_toplot'])
 
 
     if 'test' in targets:

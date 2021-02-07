@@ -1,4 +1,9 @@
 {
-    "data_path": "data/interim",
-    "csv_path": "data/csv_out/"
+    "data_path": "data/interim/",
+    "out_path": "data/analysis/",
+    "start_date": "2020-03-22",
+    "end_date": "2020-12-01",
+    "freq_names": ["freq_terms_count.csv", "freq_terms_tfidf.csv"],
+    "case_name": "new_cases.csv",
+    "words_toplot": ["sick", "great"]
 }
