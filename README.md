@@ -8,7 +8,7 @@
 - [Data](#data)
 - [EDA](#EDA)
 - [Model](#model)
-- [Contributors](#contributors)
+- [Contributors](#responsibilities)
 
 
 ## Introduction
@@ -77,10 +77,8 @@ Use the command `python run.py analysis` to generate statistics and graphs of th
 All test data are saved in `test/testdata`. Our test data contains no personal information as all of the details have been replaced. Only some tweets in the test set has hashtags of COVID19 and specific words which ensures it to run efficiently.
 
 
-
+## Responsibilities
 ```
-### Responsibilities
-
 * Jiawei Zheng developed
 * Yunlin Tang developed
 * Zhou Li developed
