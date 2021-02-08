@@ -2,5 +2,12 @@ python3
 numpy
 pandas
 curl
-twarc (user needs to configure twarc before running the script)
+twarc
 tweepy
+seaborn
+scipy
+python-louvain
+python-dotenv
+nltk
+torch
+transformers

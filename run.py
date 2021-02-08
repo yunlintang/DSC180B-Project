@@ -43,6 +43,7 @@ def main(targets):
         with open('config/data-params.json') as fh:
             data_cfg = json.load(fh)
         clean_all_csv(data_cfg['path_test'], data_cfg['path_test'])
+        test = True
 
 
     if 'analysis' in targets:
