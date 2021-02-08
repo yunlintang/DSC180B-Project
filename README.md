@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 ## Building
 
-We are still in progess to build targets; for now, there are four targets that are available to use: 
+We are still in progess to build targets; for now, there are five targets that are available to use: 
 * data
     - run **`python run.py data`** for downloading and making datasets (three in total).
     - data will be saved in the paths `data/raw` and `data/inteirm`.
@@ -38,12 +38,16 @@ We are still in progess to build targets; for now, there are four targets that a
     - run **`python run.py analysis`** for cleaning and analyzing the collected data
     - results (plots and tables) will be saved in the paths `data/analysis`.
     - you can directly view the EDA report in `notebooks/analysis.ipynb`.
-* model
-    - run **`python run.py model`** for building different models.
+* feature
+    - run **`python run.py feature`** for extracting sentiment labels from tweet dataset.
     - still in progress.
+* model
+    - run **`python run.py analysis model`** for building different models.
+    - still in progress.
+    - need to run **analysis** first.
 * test
     - run **`python run.py test`** for building steps on our made-up test data.
-    - this target is equivalent to **`python run.py test-data analysis`**.
+    - this target is equivalent to **`python run.py test-data analysis model`**.
 
 
 ## Data

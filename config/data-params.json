@@ -9,6 +9,6 @@
     "url": "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv",
     "case_csv": "new_cases.csv",
     "sd_test": "2020-05-01",
-    "ed_test": "2020-05-15",
+    "ed_test": "2020-05-21",
     "path_test": "test/testdata/"
 }
