@@ -75,6 +75,9 @@ def plot_daily_sentiment(**kwargs):
     start_date, end_date = kwargs['start_date'], kwargs['end_date']
     data_path, data_case, out_path, plot_name = kwargs['data_path'], kwargs['case_name'], kwargs['out_path'], kwargs['detrend_name']
 
+    if kwargs['test']:
+        start_date, end_date, data_path = kwargs['test_sd'], kwargs['test_ed'], kwargs['test_path']
+
     plot_daily_cases(data_path+data_case, out_path, kwargs['daily_name'])
     date_list = gen_date_list(start_date, end_date)
     daily_compound = cal_daily_vader_score(data_path, date_list)
