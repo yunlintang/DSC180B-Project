@@ -50,8 +50,7 @@ def main(targets):
         with open('config/analysis-params.json') as fh:
             ana_cfg = json.load(fh)
         ana_cfg['test'] = test
-        ana_cfg['date_list'] = gen_date_list(**ana_cfg)
-        cal_daily_vader_score(**ana_cfg)
+        plot_daily_sentiment(**ana_cfg)
         analyze_data(**ana_cfg)
 
     if 'model' in targets:

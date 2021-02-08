@@ -8,5 +8,7 @@
     "test_ed": "2020-05-04",
     "freq_names": ["freq_terms_count.csv", "freq_terms_tfidf.csv"],
     "case_name": "new_cases.csv",
+    "detrend_name": "detrended_plot.png",
+    "daily_name": "daily_case_plot.png",
     "words_toplot": ["sick", "great"]
 }
