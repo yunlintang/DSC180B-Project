@@ -42,11 +42,13 @@ def SVC(cleaned):
     X_vali_bag_of_words_rep = X_validation.toarray()
     clf = SVC(C = 0.01, kernel = 'linear', gamma = "auto")
     clf.fit(X,y_train)
-    result = clf.predict(X_validation)
-    accuracy = accuracy_score(result, y_vali)
-    return accuracy
+    #result = clf.predict(X_validation)
+    #accuracy = accuracy_score(result, y_vali)
+    return clf
 
-
-x = data_cleaning("trained.csv")
-cleaned = text_cleaning(x)
-SVC(cleaned)
+def build_svc(**kwargs):
+    path,filename = kwargs['data_path'],kwargs['sentiment_label_data']
+    x = data_cleaning(path+filename)
+    cleaned = text_cleaning(x)
+    svc = SVC(cleaned)
+    return svc

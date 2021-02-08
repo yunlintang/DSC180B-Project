@@ -1,0 +1,4 @@
+{
+    "data_path": "data/interim/",
+    "sentiment_label_data": "sentiment_labeled.csv"
+}

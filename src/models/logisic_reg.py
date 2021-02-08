@@ -59,13 +59,15 @@ def model_trained(trained_matrix, df):
     X_train, X_test, y_train, y_test = train_test_split(trained_matrix, labels, test_size=0.25, random_state=42)
     model = LogisticRegression(max_iter=500)
     model.fit(X_train, y_train)
-    value = model.predict(X_test)
-    accuracy = accuracy_score(value, y_test)
-    return accuracy
+    #value = model.predict(X_test)
+    #accuracy = accuracy_score(value, y_test)
+    return model
 
-
-x = data_cleaning("trained.csv")
-cleaned = text_cleaning(x)
-tokenized_text = tokenization(cleaned)
-trained_matrix = padding(tokenized_text)
-model_trained(trained_matrix, cleaned)
+def build_logreg(**kwargs):
+    path,filename = kwargs['data_path'], kwargs['sentiment_label_data']
+    x = data_cleaning(path+filename)
+    cleaned = text_cleaning(x)
+    tokenized_text = tokenization(cleaned)
+    trained_matrix = padding(tokenized_text)
+    model = model_trained(trained_matrix, cleaned)
+    return model
