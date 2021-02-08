@@ -83,3 +83,4 @@ def plot_daily_sentiment(**kwargs):
     daily_compound = cal_daily_vader_score(data_path, date_list)
     detrended = detrend_data(data_path+data_case)
     plot_detrend_score(daily_compound, date_list, detrended, out_path, plot_name)
+    return daily_compound, detrended

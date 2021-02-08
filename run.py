@@ -11,8 +11,9 @@ from analysis.daily_sentiment import *
 from data.clean_text import *
 from data.extract_to_csv import *
 from data.case_download import *
-from models.svc import *
-from models.logreg import *
+from features.svc import *
+from features.logreg import *
+from models.prediction import *
 
 
 
@@ -20,7 +21,7 @@ def main(targets):
 
     test = False
     env_setup.make_datadir()
-    test_targets = ['test-data','analysis']
+    test_targets = ['test-data','analysis','model']
 
     if 'test' in targets:
         targets = test_targets
@@ -46,19 +47,30 @@ def main(targets):
         test = True
 
 
+    score_list, detrended = None, None
     if 'analysis' in targets:
         with open('config/analysis-params.json') as fh:
             ana_cfg = json.load(fh)
         ana_cfg['test'] = test
         plot_daily_sentiment(**ana_cfg)
-        analyze_data(**ana_cfg)
+        score_list, detrended = analyze_data(**ana_cfg)
+
+
+    if 'feature' in targets:
+        with open('config/feature-params.json') as fh:
+            fea_cfg = json.load(fh)
+        fea_cfg['test'] = test
+        build_svc(**fea_cfg)
+        build_logreg(**fea_cfg)
+
 
     if 'model' in targets:
-        with open('config/model-params.json') as fh:
-            model_cfg = json.load(fh)
-        model_cfg['test'] = test
-        build_svc(**model_cfg)
-        build_logreg(**model_cfg)
+        if (score_list is None) or (detrended is None):
+            print("please run the target 'analysis' first!")
+        else:
+            train_x, train_y, test_x, test_y = prediction.get_data(score_list, detrended)
+            print(prediction.knn_predict(train_x, train_y, test_x, test_y))
+
 
 
     if 'all' in targets:
