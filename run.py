@@ -11,16 +11,20 @@ from analysis.daily_sentiment import *
 from data.clean_text import *
 from data.extract_to_csv import *
 from data.case_download import *
+from models.svc import *
+from models.logreg import *
 
 
 
 def main(targets):
 
+    test = False
     env_setup.make_datadir()
     test_targets = ['test-data','analysis']
 
     if 'test' in targets:
         targets = test_targets
+        test = True
     
 
     if 'data' in targets:
@@ -44,18 +48,21 @@ def main(targets):
     if 'analysis' in targets:
         with open('config/analysis-params.json') as fh:
             ana_cfg = json.load(fh)
-        if "test-data" in targets:
-            ana_cfg['test'] = True
-        else:
-            ana_cfg['test'] = False
+        ana_cfg['test'] = test
         ana_cfg['date_list'] = gen_date_list(**ana_cfg)
         cal_daily_vader_score(**ana_cfg)
         analyze_data(**ana_cfg)
 
+    if 'model' in targets:
+        with open('config/model-params.json') as fh:
+            model_cfg = json.load(fh)
+        model_cfg['test'] = test
+        build_svc(**model_cfg)
+        build_logreg(**model_cfg)
+
 
     if 'all' in targets:
         main('data')
-        main('eda')
         main('analysis')
 
 
