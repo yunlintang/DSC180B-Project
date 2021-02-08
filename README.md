@@ -47,7 +47,7 @@ We are still in progess to build targets; for now, there are five targets that a
     - need to run **analysis** first.
 * test
     - run **`python run.py test`** for building steps on our made-up test data.
-    - this target is equivalent to **`python run.py test-data analysis model`**.
+    - this target is equivalent to **`python run.py test-data analysis`**.
 
 
 ## Data
