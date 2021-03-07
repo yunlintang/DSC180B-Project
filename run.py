@@ -63,9 +63,8 @@ def main(targets):
     if 'feature' in targets:
         with open('config/feature-params.json') as fh:
             fea_cfg = json.load(fh)
-        fea_cfg['test'] = test
-        build_svc(**fea_cfg)
         build_logreg(**fea_cfg)
+        build_svc(**fea_cfg)
 
 
     if 'model' in targets:

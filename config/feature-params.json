@@ -1,4 +1,5 @@
 {
     "data_path": "data/interim/",
+    "cleaned_csv": "trained_clean.csv",
     "sentiment_label_data": "sentiment_labeled.csv"
 }
