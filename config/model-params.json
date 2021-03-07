@@ -1,0 +1,6 @@
+{
+    "data_path": "data/interim/",
+    "score_path": "data/final/",
+    "case_csv": "new_cases.csv",
+    "score_csv": "score.csv"
+}

@@ -2,6 +2,7 @@ from sklearn.neighbors import KNeighborsRegressor
 from sklearn.metrics import mean_squared_error
 import numpy as np
 import pandas as pd
+from statsmodels.tsa.seasonal import seasonal_decompose
 
 def series_to_supervised(data, n_in=1, n_out=1, dropnan=True):
 
@@ -50,3 +51,22 @@ def knn_predict(train_x, train_y, test_x, test_y):
     neigh.fit(train_x, train_y)
     predicted = neigh.predict(test_x)
     return mean_squared_error(predicted, test_y)**0.5
+
+
+def detrend_data(daily_cases):
+    daily_cases = pd.read_csv(daily_cases)
+    daily_cases.date = pd.to_datetime(daily_cases.date)
+    daily_cases = daily_cases.set_index('date')
+    result_mul = seasonal_decompose(daily_cases['new_cases'], model='multiplicative', extrapolate_trend='freq')
+    detrended = daily_cases.new_cases - result_mul.trend
+    return detrended
+
+
+def make_prediction(**kwargs):
+	detrended = detrend_data(kwargs['data_path']+kwargs['case_csv'])
+	score_list = list(pd.read_csv(kwargs['score_path']+kwargs['score_csv'])['score'])
+	train_x, train_y, test_x, test_y = get_data(score_list, detrended)
+	print(test_x)
+	knn_predict(train_x, train_y, test_x, test_y)
+
+	return

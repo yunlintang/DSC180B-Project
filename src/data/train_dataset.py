@@ -6,13 +6,13 @@ load_dotenv(dotenv_path)
 KAGGLE_KEY = os.environ.get('KAGGLE_KEY')
 KAGGLE_USERNAME = os.environ.get('KAGGLE_USERNAME')
 
-from kaggle.api.kaggle_api_extended import KaggleApi
 import numpy as np
 import pandas as pd
 import re
 import shutil
 
 def download_train(url,filename,path):
+    from kaggle.api.kaggle_api_extended import KaggleApi
     api = KaggleApi()
     api.authenticate()
     api.dataset_download_file(url, filename, path=path)

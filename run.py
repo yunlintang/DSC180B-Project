@@ -51,12 +51,11 @@ def main(targets):
         get_training_dataset(**data_cfg)
 
 
-    score_list, detrended = None, None
     if 'analysis' in targets:
         with open('config/analysis-params.json') as fh:
             ana_cfg = json.load(fh)
         ana_cfg['test'] = test
-        score_list, detrended = plot_daily_sentiment(**ana_cfg)
+        plot_daily_sentiment(**ana_cfg)
         analyze_data(**ana_cfg)
 
 
@@ -68,11 +67,9 @@ def main(targets):
 
 
     if 'model' in targets:
-        if (score_list is None) or (detrended is None):
-            print("please run the target 'analysis' first!")
-        else:
-            train_x, train_y, test_x, test_y = get_data(score_list, detrended)
-            print(knn_predict(train_x, train_y, test_x, test_y))
+        with open('config/model-params.json') as fh:
+            model_cfg = json.load(fh)
+        make_prediction(**model_cfg)
 
 
     if 'all' in targets:
