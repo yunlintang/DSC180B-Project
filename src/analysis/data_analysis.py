@@ -62,8 +62,10 @@ def plot_freq(df, df_case_cnt, word, topath,tofilename):
     ax.xaxis.set_major_locator(mdates.WeekdayLocator())
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%b %d'))
     plt.legend()
-    plt.xlabel('date')
+    plt.xlabel('Date')
     plt.xticks(rotation=45)
+    plt.ylabel('Standardized Unit')
+    plt.title('Frequency of Word "{}" vs. Daily Cases'.format(word))
     fig.savefig(topath+tofilename)
     return
 

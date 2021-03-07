@@ -40,13 +40,20 @@ def cal_daily_vader_score(file_path, date_list):
     return score_list
 
 
-def plot_daily_cases(file_path, topath, filename):
+def plot_daily_cases(file_path, topath, filename, detrended, date_list,score_list):
     df = pd.read_csv(file_path)
     fig = plt.figure(figsize=(16,6))
-    cases_plot = sns.lineplot(data = df.new_cases)
+
+    sns.set_style("darkgrid")
+    ax = sns.lineplot(y = df.new_cases, x = date_list, label="daily new cases")
+    ax2 = sns.lineplot(y = detrended/2500000+np.mean(score_list), x = date_list, label='detrended daily new cases')
+    ax.legend()
+    plt.xticks(rotation=30)
+    plt.xlabel('date')
+    plt.title("Daily New Cases vs. Detrended Daily New Cases")
     fig.savefig(topath+filename)
     print("daily case plot is saved at:", topath+filename)
-    return cases_plot
+    return 
 
 def detrend_data(daily_cases):
     daily_cases = pd.read_csv(daily_cases)
@@ -59,6 +66,7 @@ def detrend_data(daily_cases):
 def plot_detrend_score(score_list, date_list, detrended, topath, filename):
     sns.set_style("darkgrid")
     fig = plt.figure(figsize=(16, 6))
+
     ax = sns.lineplot(y = score_list, x = date_list, label = 'Sentiment Score')
     ax2 = sns.lineplot(y = detrended/2500000+np.mean(score_list), x = date_list, label = 'Detrended Daily Cases')
     plt.xticks(rotation=30)
@@ -68,6 +76,9 @@ def plot_detrend_score(score_list, date_list, detrended, topath, filename):
         else:
             label.set_visible(False)
     ax.legend()
+    plt.xlabel('Date')
+    plt.ylabel('Standardized Unit')
+    plt.title('Daily Sentiment Score vs. Detrended Daily Cases')
     fig.savefig(topath+filename)
     print("plot of detrended score is saved at:", topath+filename)
     return
@@ -80,9 +91,10 @@ def plot_daily_sentiment(**kwargs):
         start_date, end_date = kwargs['test_sd'], kwargs['test_ed']
         shutil.copy(kwargs['test_path']+data_case, data_path)
 
-    plot_daily_cases(data_path+data_case, out_path, kwargs['daily_name'])
     date_list = gen_date_list(start_date, end_date)
     daily_compound = cal_daily_vader_score(data_path, date_list)
     detrended = detrend_data(data_path+data_case)
+
+    plot_daily_cases(data_path+data_case, out_path, kwargs['daily_name'], detrended, date_list, daily_compound)
     plot_detrend_score(daily_compound, date_list, detrended, out_path, plot_name)
     return daily_compound, detrended

@@ -18,9 +18,9 @@ def get_date_list(start,end):
         date_list.append(date.strftime("%Y-%m-%d"))
     return date_list
 
-def plot_score_cases(detrended, score_list, date_list):
+def plot_score_cases(detrended, score_list, date_list, topath):
     sns.set_style("darkgrid")
-    plt.figure(figsize=(16, 6))
+    fig = plt.figure(figsize=(16, 6))
 
     ax = sns.lineplot(y = score_list, x = date_list, label = 'Sentiment Score')
     ax2 = sns.lineplot(y = detrended/1500000+np.mean(score_list), x = date_list, label = 'Detrended Daily Cases')
@@ -33,8 +33,9 @@ def plot_score_cases(detrended, score_list, date_list):
     ax.legend()
     plt.xlabel('Date')
     plt.ylabel('Standardized unit')
-    plt.title('Daily Sentiment Score and Detrended Daily Cases')
-    plt.show()
+    plt.title('Daily Sentiment Score vs. Detrended Daily Cases')
+    fig.savefig(topath)
+    return
 
 def half_life(ts):  
     ts = np.asarray(ts)
@@ -43,16 +44,16 @@ def half_life(ts):
     beta = np.linalg.lstsq(lag_ts, delta_ts)
     return (np.log(2) / beta[0])[0]
 
-def fourier(data,title):
+def fourier(data,title,topath):
     nobs = len(data)
     x_ft = np.abs(rfft(data))
     x_freq = rfftfreq(nobs)
-    plt.figure(figsize=(10, 7))
+    fig = plt.figure(figsize=(10, 7))
     plt.plot(x_freq[2:], x_ft[2: ])
     plt.title(title)
     plt.xlabel('frequency (1/day)')
     plt.ylabel('magnitude')
-    plt.show()
+    fig.savefig(topath)
     return
 
 def detrend_data(daily_cases):
@@ -71,13 +72,13 @@ def make_prediction(**kwargs):
     date_list = get_date_list(dates[0], dates[1])
     detrended = detrend_data(datapath+casecsv)
     score_list = list(pd.read_csv(scorepath+scorecsv)['score'])
-    plot_score_cases(detrended,score_list,date_list)
+    plot_score_cases(detrended,score_list,date_list,scorepath+kwargs['score_plot'])
     corr, _ = pearsonr(detrended, score_list)
 
     print('Pearsons correlation: %.3f' % corr)
     print('Mean aversion time for Daily cases : '+ str(half_life(detrended)))
     print('Mean aversion time for Sentiment score : '+str(half_life(score_list)))
-    fourier(score_list, 'Decomposition of Sentiment Score')
-    fourier(list(detrended), 'Decomposition of Daily Cases')
+    fourier(score_list, 'Decomposition of Sentiment Score',scorepath+kwargs['fourier_plots'][0])
+    fourier(list(detrended), 'Decomposition of Daily Cases',scorepath+kwargs['fourier_plots'][1])
 
     return
