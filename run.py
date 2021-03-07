@@ -14,7 +14,7 @@ from data.case_download import *
 from data.train_dataset import *
 from features.svc import *
 from features.logreg import *
-from models.prediction import *
+from models.timeseries import *
 
 
 
@@ -69,6 +69,7 @@ def main(targets):
     if 'model' in targets:
         with open('config/model-params.json') as fh:
             model_cfg = json.load(fh)
+        model_cfg['test'] = test
         make_prediction(**model_cfg)
 
 
