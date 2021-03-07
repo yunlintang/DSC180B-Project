@@ -11,6 +11,7 @@ from analysis.daily_sentiment import *
 from data.clean_text import *
 from data.extract_to_csv import *
 from data.case_download import *
+from data.train_dataset import *
 from features.svc import *
 from features.logreg import *
 from models.prediction import *
@@ -71,6 +72,10 @@ def main(targets):
             train_x, train_y, test_x, test_y = get_data(score_list, detrended)
             print(knn_predict(train_x, train_y, test_x, test_y))
 
+    if "yunlin" in targets:
+        with open('config/data-params.json') as fh:
+            data_param = json.load(fh)
+        get_training_dataset(**data_param)
 
 
     if 'all' in targets:
