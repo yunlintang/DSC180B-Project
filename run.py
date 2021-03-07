@@ -22,7 +22,7 @@ def main(targets):
 
     test = False
     env_setup.make_datadir()
-    test_targets = ['test-data','analysis','feature']
+    test_targets = ['test-data','analysis','feature', 'model']
 
     if 'test' in targets:
         targets = test_targets
@@ -74,8 +74,7 @@ def main(targets):
 
 
     if 'all' in targets:
-        main('data')
-        main('analysis')
+        main(['data', 'analysis', 'feature', 'model'])
 
 
     return
