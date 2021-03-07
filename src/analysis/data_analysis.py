@@ -74,7 +74,7 @@ def analyze_data(**kwargs):
     # read data
     df = pd.DataFrame({'date':[], 'text':[]})
     for fn in os.listdir(datapath):
-        if 'clean' in fn:
+        if '-clean' in fn:
             df_temp = pd.read_csv(datapath+fn,lineterminator='\n')
             text = list(df_temp['clean_text'].to_numpy())
             date = [fn[:10]] * len(text)

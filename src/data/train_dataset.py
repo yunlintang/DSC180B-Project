@@ -48,8 +48,12 @@ def text_cleaning(df):
 
 def get_training_dataset(**kwargs):
     print('downloading training dataset from Kaggle...')
-    download_train(kwargs['kaggle_url'], kwargs['kaggle_data'], kwargs['data_path'])
-    df = data_cleaning(kwargs['data_path']+kwargs['kaggle_data'])
+    if kwargs['test']:
+        df = data_cleaning(kwargs['path_test']+kwargs['kaggle_data'])
+    else:
+        download_train(kwargs['kaggle_url'], kwargs['kaggle_data'], kwargs['data_path'])
+        df = data_cleaning(kwargs['data_path']+kwargs['kaggle_data'])
+
     df = text_cleaning(df)
     df.to_csv(kwargs['out_path']+kwargs['train_csv'],index=False)
     print('training dataset is saved in `data/interim`!')
