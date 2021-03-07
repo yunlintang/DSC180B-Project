@@ -70,8 +70,6 @@ def plot_freq(df, df_case_cnt, word, topath,tofilename):
 
 def analyze_data(**kwargs):
     datapath,outpath,freqFileName,caseFileName,words = kwargs['data_path'], kwargs['out_path'], kwargs['freq_names'], kwargs['case_name'], kwargs['words_toplot']
-    if kwargs['test']:
-        datapath = kwargs['test_path']
 
     # read data
     df = pd.DataFrame({'date':[], 'text':[]})

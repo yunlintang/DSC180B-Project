@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import signal
 from statsmodels.tsa.seasonal import seasonal_decompose
+import shutil
 
 
 def gen_date_list(start_str, end_str):
@@ -76,7 +77,8 @@ def plot_daily_sentiment(**kwargs):
     data_path, data_case, out_path, plot_name = kwargs['data_path'], kwargs['case_name'], kwargs['out_path'], kwargs['detrend_name']
 
     if kwargs['test']:
-        start_date, end_date, data_path = kwargs['test_sd'], kwargs['test_ed'], kwargs['test_path']
+        start_date, end_date = kwargs['test_sd'], kwargs['test_ed']
+        shutil.copy(kwargs['test_path']+data_case, data_path)
 
     plot_daily_cases(data_path+data_case, out_path, kwargs['daily_name'])
     date_list = gen_date_list(start_date, end_date)
