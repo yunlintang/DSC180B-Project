@@ -35,6 +35,19 @@ def padding(tokenized_text):
     for i in range(1, len(tokenized_text)):
         lis = lis + [tokenized_text[i]]
     trained_matrix = sparse.csr_matrix(lis)
+    return trained_matrix, max_length
+
+
+def padding_test(tokenized_text, max_length):
+    for i in range(len(tokenized_text)):
+        if len(tokenized_text) <= max_length:
+            tokenized_text[i] = tokenized_text[i] + (max_length - len(tokenized_text[i]))*[0]
+        else:
+            tokenzied_text[i] = tokenzied_text[i][:max_length]
+    lis = [tokenized_text[0]]
+    for i in range(1, len(tokenized_text)):
+        lis = lis + [tokenized_text[i]]
+    trained_matrix = sparse.csr_matrix(lis)
     return trained_matrix
 
 
@@ -53,7 +66,7 @@ def build_logreg(**kwargs):
 
     cleaned = pd.read_csv(path+cleanpath)
     tokenized_text = tokenization(cleaned)
-    trained_matrix = padding(tokenized_text)
+    trained_matrix,max_length = padding(tokenized_text)
     results = model_trained(trained_matrix, cleaned)
     print('accuracy of Log Reg model on the labeled dataset:', results[0])
 
@@ -63,10 +76,11 @@ def build_logreg(**kwargs):
             if '-clean' in i:
                 print(i)
                 test_df = pd.read_csv(path+i)
-                text = padding(test_df['clean_text'].apply(tokenize))
+                text = padding_test(test_df['clean_text'].apply(tokenize), max_length)
                 score = np.mean(results[1].predict(text))
                 score_list.append(score)
                 date_list.append(i[:10])
+
         df_score = pd.DataFrame({'date':date_list, "score":score_list})
         if not os.path.exists(outpath):
             os.mkdir(outpath)
