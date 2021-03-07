@@ -37,13 +37,12 @@ def padding(tokenized_text):
     trained_matrix = sparse.csr_matrix(lis)
     return trained_matrix, max_length
 
-
 def padding_test(tokenized_text, max_length):
     for i in range(len(tokenized_text)):
-        if len(tokenized_text) <= max_length:
+        if len(tokenized_text[i]) <= max_length:
             tokenized_text[i] = tokenized_text[i] + (max_length - len(tokenized_text[i]))*[0]
-        else:
-            tokenzied_text[i] = tokenzied_text[i][:max_length]
+        elif len(tokenized_text[i]) > max_length:
+            tokenized_text[i] = tokenized_text[i][:max_length]
     lis = [tokenized_text[0]]
     for i in range(1, len(tokenized_text)):
         lis = lis + [tokenized_text[i]]
@@ -62,7 +61,7 @@ def model_trained(trained_matrix, df):
 
 
 def build_logreg(**kwargs):
-    path,cleanpath = kwargs['data_path'],kwargs['cleaned_csv']
+    path,cleanpath,outpath = kwargs['data_path'],kwargs['cleaned_csv'],kwargs['out_path']
 
     cleaned = pd.read_csv(path+cleanpath)
     tokenized_text = tokenization(cleaned)
@@ -74,7 +73,6 @@ def build_logreg(**kwargs):
         score_list,date_list = [],[]
         for i in os.listdir(path):
             if '-clean' in i:
-                print(i)
                 test_df = pd.read_csv(path+i)
                 text = padding_test(test_df['clean_text'].apply(tokenize), max_length)
                 score = np.mean(results[1].predict(text))
@@ -82,6 +80,8 @@ def build_logreg(**kwargs):
                 date_list.append(i[:10])
 
         df_score = pd.DataFrame({'date':date_list, "score":score_list})
+        df_score['date'] = pd.to_datetime(df_score['date'])
+        df_score.sort_values(by=['date'], inplace=True)
         if not os.path.exists(outpath):
             os.mkdir(outpath)
         df_score.to_csv(outpath+kwargs['score_csv'],index=False)
