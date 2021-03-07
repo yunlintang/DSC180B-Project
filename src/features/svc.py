@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.svm import SVC
 from sklearn.model_selection import GridSearchCV
 from sklearn.metrics import accuracy_score
+import os
 
 
 def SVC_model(cleaned):
@@ -20,11 +21,29 @@ def SVC_model(cleaned):
     clf.fit(X,y_train)
     result = clf.predict(X_validation)
     accuracy = accuracy_score(result, y_vali)
-    return accuracy
+    return accuracy, result, vectorizer, clf
 
 def build_svc(**kwargs):
-    path,cleanpath,filename = kwargs['data_path'],kwargs['cleaned_csv'],kwargs['sentiment_label_data']
+    path,cleanpath,outpath = kwargs['data_path'],kwargs['cleaned_csv'],kwargs['out_path']
     df = pd.read_csv(path+cleanpath)
-    acc = SVC_model(df)
-    print('accuracy of svc model on the labeled dataset:', acc)
+    results = SVC_model(df)
+    # print the accuracy
+    print('accuracy of svc model on the labeled dataset:', results[0])
+
+    # save the prediction
+    if(kwargs['model'] == 'svc'):
+        score_list,date_list = [],[]
+        for i in os.listdir(path):
+            if '-clean' in i:
+                test_df = pd.read_csv(path+i)
+                score = np.mean(results[3].predict(results[2].transform(test_df['clean_text'])))
+                score_list.append(score)
+                date_list.append(i[:10])
+        df_score = pd.DataFrame({'date':date_list, "score":score_list})
+        df_score['date'] = pd.to_datetime(df_score['date'])
+        df_score.sort_values(by=['date'], inplace=True)
+        if not os.path.exists(outpath):
+            os.mkdir(outpath)
+        df_score.to_csv(outpath+kwargs['score_csv'],index=False)
+        print('predictions of SVC are saved in `data/final`')
     return

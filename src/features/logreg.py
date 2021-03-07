@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 from scipy import sparse
+import os
 
 
 
@@ -44,15 +45,31 @@ def model_trained(trained_matrix, df):
     model.fit(X_train, y_train)
     value = model.predict(X_test)
     accuracy = accuracy_score(value, y_test)
-    return accuracy
+    return accuracy,model
 
 
 def build_logreg(**kwargs):
-    path,cleanpath,filename = kwargs['data_path'],kwargs['cleaned_csv'],kwargs['sentiment_label_data']
+    path,cleanpath = kwargs['data_path'],kwargs['cleaned_csv']
 
     cleaned = pd.read_csv(path+cleanpath)
     tokenized_text = tokenization(cleaned)
     trained_matrix = padding(tokenized_text)
-    acc = model_trained(trained_matrix, cleaned)
-    print('accuracy of Log Reg model on the labeled dataset:', acc)
+    results = model_trained(trained_matrix, cleaned)
+    print('accuracy of Log Reg model on the labeled dataset:', results[0])
+
+    if(kwargs['model'] == 'logreg'):
+        score_list,date_list = [],[]
+        for i in os.listdir(path):
+            if '-clean' in i:
+                print(i)
+                test_df = pd.read_csv(path+i)
+                text = padding(test_df['clean_text'].apply(tokenize))
+                score = np.mean(results[1].predict(text))
+                score_list.append(score)
+                date_list.append(i[:10])
+        df_score = pd.DataFrame({'date':date_list, "score":score_list})
+        if not os.path.exists(outpath):
+            os.mkdir(outpath)
+        df_score.to_csv(outpath+kwargs['score_csv'],index=False)
+        print('predictions of LogReg are saved in `data/final`')
     return 

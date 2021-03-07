@@ -22,7 +22,7 @@ def main(targets):
 
     test = False
     env_setup.make_datadir()
-    test_targets = ['test-data','analysis']
+    test_targets = ['test-data','analysis','feature']
 
     if 'test' in targets:
         targets = test_targets

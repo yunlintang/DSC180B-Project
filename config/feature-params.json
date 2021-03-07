@@ -1,5 +1,7 @@
 {
     "data_path": "data/interim/",
+    "out_path": "data/final/",
     "cleaned_csv": "trained_clean.csv",
-    "sentiment_label_data": "sentiment_labeled.csv"
+    "model": "logreg",
+    "score_csv":"score.csv"
 }
