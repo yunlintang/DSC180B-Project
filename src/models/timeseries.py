@@ -7,6 +7,8 @@ from scipy.stats import pearsonr
 from scipy.fftpack import fft, rfft,rfftfreq
 from statsmodels.tsa.seasonal import seasonal_decompose
 
+np.warnings.filterwarnings('ignore')
+
 def get_date_list(start,end):
     start = datetime.datetime.strptime(start, "%Y-%m-%d")
     end = datetime.datetime.strptime(end, "%Y-%m-%d")
