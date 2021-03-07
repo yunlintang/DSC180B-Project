@@ -39,6 +39,7 @@ def main(targets):
         convert_all_json(data_param['data_path'], data_param['data_path'])
         clean_all_csv(data_param['data_path'], data_param['out_path'])
         total_case(data_param['case_csv'], data_param['out_path'], data_param['start_date'], data_param['end_date'], data_param['url'])
+        get_training_dataset(**data_param)
 
 
     if 'test-data' in targets:
@@ -71,11 +72,6 @@ def main(targets):
         else:
             train_x, train_y, test_x, test_y = get_data(score_list, detrended)
             print(knn_predict(train_x, train_y, test_x, test_y))
-
-    if "yunlin" in targets:
-        with open('config/data-params.json') as fh:
-            data_param = json.load(fh)
-        get_training_dataset(**data_param)
 
 
     if 'all' in targets:
