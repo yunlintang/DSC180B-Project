@@ -7,7 +7,7 @@
 - [Steps for Building](#building)
 - [Data](#data)
 - [EDA](#EDA)
-- [Features and Models](#featuresandmodels)
+- [Features and Models](#features_and_models)
 - [Contributors](#responsibilities)
 
 
