@@ -11,3 +11,4 @@ python-dotenv
 nltk
 torch
 transformers
+kaggle

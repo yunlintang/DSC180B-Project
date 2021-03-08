@@ -24,13 +24,14 @@ Covid-19 changed everyone, from the way we interact, to how we work, and our met
 cd references
 pip install -r requirements.txt
 ```
-- In order to rehydrate the twitter data, you need to create a Twitter Developer Api account and get the API(costumer) key, API secret key, Access Token, and Access Token Secret. 
-- Save these keys into `.env` file in the project root directory.
+- In order to rehydrate the twitter data, you need to create a Twitter Developer Api account and get the API(costumer) key, API secret key, Access Token, and Access Token Secret.
+- Also a Kaggle account with username and key to access the kaggle dataset.
+- Save these keys into `.env` file in the project root directory. You can modify the `.env.example` with your own information and save it as `.env`.
 
 
 ## Building
 
-We are still in progess to build targets; for now, there are five targets that are available to use: 
+There are six targets available in order to build the projects:
 * data
     - run **`python run.py data`** for downloading and making datasets (three in total).
     - data will be saved in the paths `data/raw` and `data/inteirm`.
@@ -39,15 +40,18 @@ We are still in progess to build targets; for now, there are five targets that a
     - results (plots and tables) will be saved in the paths `data/analysis`.
     - you can directly view the EDA report in `notebooks/analysis.ipynb`.
 * feature
-    - run **`python run.py feature`** for extracting sentiment labels from tweet dataset.
-    - still in progress.
+    - run **`python run.py feature`** for building prediction models by using the pre-trained Kaggle dataset in order to label our own tweet dataset.
+    - the mean sentiment scores per day will be saved in `data/final`.
 * model
-    - run **`python run.py analysis model`** for building different models.
-    - still in progress.
-    - need to run **analysis** first.
+    - run **`python run.py model`** for using time series models to analyze the sentiment scores and daily new cases.
+    - results will be saved in `data/final`.
 * test
     - run **`python run.py test`** for building steps on our made-up test data.
-    - this target is equivalent to **`python run.py test-data analysis`**.
+    - this target is equivalent to **`python run.py test-data analysis feature model`**.
+    - **IMPORTANT**: If you want to run any specific target on the test data, please include the target `test-data` in the command. For example, `python run.py test-data analysis` and `python run.py test-data feature`. And please make sure run the command in this order: test-data, analysis, feature, model.
+* all
+    - run **`python run.py all`** for building the complete project.
+    - this command is equivalent to **`python run.py data analysis feature model`**.
 
 
 ## Data
@@ -65,15 +69,16 @@ We also obtain the Covid-19 daily cases dataset from [Our World in Data](https:/
        |—— extract_to_csv.py # convert all the json files into cleaner csv formats
        |—— clean_text.py # clean all the tweet text
        |—— case_download.py # dowanload and clean the daily cases dataset 
+       |—— train_dataset.py # dowanload and clean the labeled tweet sentiment dataset
 └── ...
 ```
 
-The script will download all of the tweetsIDs and hydrate them using `twarc`. The data will be saved under the `data/raw` folder with date being the subfolder name. Note that the `data/raw` folder is not being version controlled to avoid data corruption. The script will create the raw folder if it does not already exist. All cleaned datasets are saved in `data/interim`.
+In order to successfully obtain data from Twitter and Kaggle, you need to have your Twitter and Kaggle Api information saved in the `.env` file. The script will download all of the tweetsIDs and hydrate them using `twarc`. The data will be saved under the `data/raw` folder with date being the subfolder name. Note that the `data/raw` folder is not being version controlled to avoid data corruption. The script will create the raw folder if it does not already exist. All cleaned datasets are saved in `data/interim`.
 
 
 ## EDA
 
-Use the command `python run.py analysis` to generate statistics and graphs of the twitter data. The files will be generated in the `data/analysis` folder. The `notebooks/analysis.ipynb` displays a report alongside those statistics.
+Use the command `python run.py analysis` to generate statistics and graphs of the twitter data. These files will be generated in the `data/analysis` folder. The `notebooks/report.ipynb` displays a analysis and results report alongside those statistics.
 
 
 ## Test
