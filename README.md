@@ -83,6 +83,8 @@ Use the command `python run.py analysis` to generate statistics and graphs of th
 
 ## Features and Models
 
+By using the command `python run.py feature`, you can build machine learning models on the pre-labeled Kaggle dataset to label the collected tweet dataset. There are two models that can be used: `svc` and `logreg`. In order to change the model options, you can modify the configuration file `config/feature-params.json`: change the value of `model` to either `logreg` or `svc`.
+
 
 ## Test
 
