@@ -7,7 +7,7 @@
 - [Steps for Building](#building)
 - [Data](#data)
 - [EDA](#EDA)
-- [Model](#model)
+- [Features and Models](#featuresandmodels)
 - [Contributors](#responsibilities)
 
 
@@ -79,6 +79,9 @@ In order to successfully obtain data from Twitter and Kaggle, you need to have y
 ## EDA
 
 Use the command `python run.py analysis` to generate statistics and graphs of the twitter data. These files will be generated in the `data/analysis` folder. The `notebooks/report.ipynb` displays a analysis and results report alongside those statistics.
+
+
+## Features and Models
 
 
 ## Test
